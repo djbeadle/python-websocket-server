@@ -3,6 +3,7 @@
 
 import re, sys
 import struct
+import RPi.GPIO as GPIO
 from base64 import b64encode
 from hashlib import sha1
 
@@ -51,8 +52,10 @@ class API():
 			self.serve_forever()
 		except KeyboardInterrupt:
 			self.server_close()
+			GPIO.cleanup()
 			print("Server terminated.")
 		except Exception as e:
+			GPIO.cleanup()
 			print("ERROR: WebSocketsServer: "+str(e))
 			exit(1)
 	def new_client(self, client, server):
